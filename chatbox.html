@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <title>Chat</title> 
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container-fluid" id="chatter">
+            <!--Tag for an optional notification sound <audio id="sound" src="" autostart="false"></audio-->
+            <div class="row no-gutters">
+                <div class="col-sm-12 contigous-bg">
+                    <pre id="chat"></pre>
+                </div>
+            </div>
+            <div class="row no-gutters">
+                <div class="col-sm-12 contigous-bg bottom-row">
+                    <input placeholder="Message" id="text" type="text">
+                </div>
+            </div>
+            <div class="row no-gutters">
+                <div class="col-sm-8 contigous-bg">
+                    <div class="container-fluid no-gutters " id="inner">
+                        <div class="row no-gutters bottom-row">
+                            <div class="col-sm-8">
+                                <input placeholder="Username" id="user" type="text">
+                            </div>
+                            <div class="col-sm-4 extra-col">
+                                ~Username
+                            </div>
+                        </div>
+                        <div class="row no-gutters bottom-row">
+                            <div class="col-sm-8">
+                                <input placeholder="Channel" id="channel" type="text">
+                            </div>
+                            <div class="col-sm-4 extra-col">
+                                ~Channel
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 contigous-bg" id="send">
+                    Send
+                </div>
+            </div>
+        </div>
+        <script src="chatbox.js"></script>
+    </body>
+</html>
