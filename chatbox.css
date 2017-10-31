@@ -1,0 +1,58 @@
+#chatter{
+    margin-bottom: 60rem;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.bottom-row{
+    border-bottom: solid #99ddff;
+}
+
+.contigous-bg{
+    background-color: #99ddff;
+}
+
+#chat{
+    background-color: #99ddff;
+    font-family: Oswald;
+    width: 100%;
+    margin-bottom: 0;
+    padding: 140Px 15px 33px 2px;
+}
+
+#text, #user, #channel{
+    font-family: Oswald;
+    background-color: white;
+    margin: 0 0 0 0;
+    width: 100%;
+    border: none;
+}
+
+#text:focus, #user:focus, #channel:focus{
+    outline: none;
+}
+
+#send{
+    background-color: #99ddff;
+    color: #ffffff;
+    margin: 0 0 0 0;
+    width: 100%;
+    text-align: center;
+    cursor: pointer !important;
+    font-size: 2.1rem;
+}
+
+#send:hover{
+    cursor: pointer !important;
+}
+
+#inner{
+    padding: 0 0 0 0 !important;
+}
+
+.extra-col{
+    background-color: #0275d8;
+    color: black;
+    text-align: left;
+    font-family: Oswald;
+}
