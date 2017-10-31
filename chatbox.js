@@ -74,7 +74,7 @@ $(document).ready(function () {
             obj = JSON.parse(msg.data);
             if (!channel.val().localeCompare(obj.chan)) { //Checks to see whether or not the recieved message is for the current channel
                 chat.innerText += makeMessage((obj.chan.localeCompare("") ? ("<" + obj.chan + ">") : "") + obj.msg);
-                if (user.val().localeCompare(obj.name)) {
+                if (!user.val().localeCompare(obj.name)) { //Checks that the username isn't the current one
                     playSound(); //Plays sound if it's enabled
                 }
                 if (parseInt(chatter.css("padding-top")) > 15) //Removes the padding until it's less than 15px
