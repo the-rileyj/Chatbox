@@ -35,13 +35,6 @@ $(document).ready(function () {
         return "";
     }
 
-    //Check that the username in the username text box is the same as the username cookie
-    function assureCookie() {
-        if (getCookie("username").localeCompare(user.val())) {
-            user.val(getCookie("username"));
-        }
-    }
-
     //Declaration of vars to hold various DOM objects for later use
     var chat = document.getElementById("chat"), chatter = $("#chat"), sound = document.getElementById("sound"),
     user = $("#user"), text = $("#text"), channel = $("#channel"), send = $("#send");
@@ -79,37 +72,41 @@ $(document).ready(function () {
             //Parses recieved message into JSON object,
             //JSON is in format {"msg":"MESSAGE TEXT", "chan":"CHANNEL NAME", "name":"USERNAME"}
             obj = JSON.parse(msg.data);
-            if (!channel.val().localeCompare(obj.chan)) {
+            if (!channel.val().localeCompare(obj.chan)) { //Checks to see whether or not the recieved message is for the current channel
                 chat.innerText += makeMessage((obj.chan.localeCompare("") ? ("<" + obj.chan + ">") : "") + obj.msg);
                 if (user.val().localeCompare(obj.name)) {
-                    playSound();
+                    playSound(); //Plays sound if it's enabled
                 }
-                if (parseInt(chatter.css("padding-top")) > 15)
+                if (parseInt(chatter.css("padding-top")) > 15) //Removes the padding until it's less than 15px
                     chatter.css("padding-top", (parseInt(chatter.css("padding-top")) - 15) + "px");
             }
         };
         return socket;
     }
 
-
+    //Checks whether or not a username exists on the system already and sets it if it does
     if (getCookie("username").localeCompare(""))
         user.val(getCookie("username"));
 
-    var ws = getWS();
+    var ws = getWS(); //Initialization of the websocket object
+
+    //Sends message on enter key press in the message textbox
     text.keydown(function (e) {
         if (e.keyCode === 13) {
             sendMessage();
         }
-        assureCookie();
     });
+
+    //Sends message on send button click
     send.click(function () {
         sendMessage();
     });
+
+    //Sends message on enter key press in the channel textbox
     channel.keydown(function (e) {
         if (e.keyCode === 13) {
             sendMessage();
         }
-        assureCookie();
     });
 
     //Sends message on enter key press in the message textbox
@@ -126,7 +123,9 @@ $(document).ready(function () {
     
     //Function for sending a message
     function sendMessage() {
-        assureCookie();
+        if (getCookie("username").localeCompare(user.val())) { //Assures that the username is the same as the one stored in the cookie
+            user.val(getCookie("username"));
+        }
         if (text.val()) { //Checking that the message textbox isn't blank
             if (user.val()) { //Checking that the username textbox isn't empty
                 if (user.val().length < 15) { //Assuring username length isn't too long
@@ -135,9 +134,8 @@ $(document).ready(function () {
                         "chan": channel.val(),
                         "name": user.val()
                     });
-                    //Sends JSON in format {"msg":"MESSAGE TEXT", "chan":"CHANNEL NAME", "name":"USERNAME"}
-                    ws.send(obj);
-                    text.val("");
+                    ws.send(obj); //Sends JSON in format {"msg":"MESSAGE TEXT", "chan":"CHANNEL NAME", "name":"USERNAME"}
+                    text.val(""); //Clears the message text box
                 } else {
                     chat.innerText += makeMessage("<ERROR>: Username is too long!");
                 }
