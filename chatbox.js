@@ -46,14 +46,14 @@ $(document).ready(function () {
     }
 
     //Adds preliminary text to the inner html of the 'pre'
-    chat.innerText += "\n\nThis is the following structure of messages:\n\"<TIME><CHANNEL><ID><USERNAME> MESSAGE\"\n" +
+    chat.innerText += "This is the following structure of messages:\n\"<TIME><CHANNEL><ID><USERNAME> MESSAGE\"\n" +
         "TIME - Time the message was sent\n" +
         "CHANNEL - Displays if not empty, channel the message was recieved from\n" +
         "ID - Unique ID of the sender\n" +
         "USERNAME - Username of the user\n" +
         "MESSAGE - Message of the user\n" +
         "Alternatively, for error's:\n\"<TIME><ERROR> MESSAGE\"\n" +
-        "Where MESSAGE display's the error message";
+        "Where MESSAGE display's the error message\n\n";
 
     //Makes ID and sets the id cookie to that value if one doesn't already exist,
     //otherwise the cookie is derived from the already existing id cookie
@@ -88,7 +88,7 @@ $(document).ready(function () {
     if (getCookie("username").localeCompare(""))
         user.val(getCookie("username"));
 
-    var ws = getWS(); //Initialization of the websocket object
+    //var ws = getWS(); //Initialization of the websocket object
 
     //Sends message on enter key press in the message textbox
     text.keydown(function (e) {
@@ -123,7 +123,7 @@ $(document).ready(function () {
     
     //Function for sending a message
     function sendMessage() {
-        if (getCookie("username").localeCompare(user.val())) { //Assures that the username is the same as the one stored in the cookie
+        if (!getCookie("username").localeCompare(user.val())) { //Assures that the username is the same as the one stored in the cookie
             user.val(getCookie("username"));
         }
         if (text.val()) { //Checking that the message textbox isn't blank

@@ -20,6 +20,10 @@
     padding: 140Px 15px 33px 2px;
 }
 
+div{
+    padding: 0 0 0 0 !important;
+}
+
 #text, #user, #channel{
     font-family: Oswald;
     background-color: white;
@@ -36,10 +40,10 @@
     background-color: #99ddff;
     color: #ffffff;
     margin: 0 0 0 0;
-    width: 100%;
+    /*width: 100%;*/
     text-align: center;
     cursor: pointer !important;
-    font-size: 2.1rem;
+    font-size: 3.5rem;
 }
 
 #send:hover{
