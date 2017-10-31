@@ -6,7 +6,7 @@ $(document).ready(function () {
     }
 
     //Helper function for formating a message with the current time
-    function makeMessage(str){
+    function makeMessage(str) {
         return "<" + now() + ">" + str + "\n";
     }
 
@@ -79,8 +79,8 @@ $(document).ready(function () {
             //Parses recieved message into JSON object,
             //JSON is in format {"msg":"MESSAGE TEXT", "chan":"CHANNEL NAME", "name":"USERNAME"}
             obj = JSON.parse(msg.data);
-            if (!channel.val().localeCompare(obj.chan)){
-                chat.innerText = makeMessage((obj.chan.localeCompare("") ? ("<" + obj.chan + ">") : "") + obj.msg) + chat.innerText;
+            if (!channel.val().localeCompare(obj.chan)) {
+                chat.innerText += makeMessage((obj.chan.localeCompare("") ? ("<" + obj.chan + ">") : "") + obj.msg);
                 if (user.val().localeCompare(obj.name)) {
                     playSound();
                 }
@@ -97,7 +97,7 @@ $(document).ready(function () {
 
     var ws = getWS();
     text.keydown(function (e) {
-        if (e.keyCode === 13){
+        if (e.keyCode === 13) {
             sendMessage();
         }
         assureCookie();
@@ -106,28 +106,30 @@ $(document).ready(function () {
         sendMessage();
     });
     channel.keydown(function (e) {
-        if (e.keyCode === 13){
+        if (e.keyCode === 13) {
             sendMessage();
         }
         assureCookie();
     });
+
+    //Sends message on enter key press in the message textbox
     user.keydown(function (e) {
-        if (e.keyCode === 13){
+        if (e.keyCode === 13) {
             sendMessage();
         }
     });
-    user.click(function () {
-        assureCookie()
-    });
+
+    //Changes username cookie on keyup
     user.keyup(function (e) {
         setCookie("username", user.val(), 7)
     });
     
     //Function for sending a message
     function sendMessage() {
-        if (text.val().localeCompare("")) {
-            if (user.val().localeCompare("")) {
-                if (user.val().length < 15) {
+        assureCookie();
+        if (text.val()) { //Checking that the message textbox isn't blank
+            if (user.val()) { //Checking that the username textbox isn't empty
+                if (user.val().length < 15) { //Assuring username length isn't too long
                     var obj = JSON.stringify({
                         "msg": "<" + id + "><" + user.val() + ">: " + text.val(),
                         "chan": channel.val(),
@@ -137,10 +139,10 @@ $(document).ready(function () {
                     ws.send(obj);
                     text.val("");
                 } else {
-                    chat.innerText = makeMessage("<ERROR>: Username is too long!") + chat.innerText;;
+                    chat.innerText += makeMessage("<ERROR>: Username is too long!");
                 }
             } else {
-                chat.innerText = makeMessage("<ERROR>: Need a username to send a message!") + chat.innerText;
+                chat.innerText += makeMessage("<ERROR>: Need a username to send a message!");
             }
         }
     }
