@@ -8,20 +8,14 @@
     border-bottom: solid #99ddff;
 }
 
-.contigous-bg{
+#chat, .contigous-bg{
     background-color: #99ddff;
 }
 
 #chat{
-    background-color: #99ddff;
-    font-family: Oswald;
     width: 100%;
     margin-bottom: 0;
     padding: 140Px 15px 33px 2px;
-}
-
-div{
-    padding: 0 0 0 0 !important;
 }
 
 #text, #user, #channel{
@@ -40,7 +34,6 @@ div{
     background-color: #99ddff;
     color: #ffffff;
     margin: 0 0 0 0;
-    /*width: 100%;*/
     text-align: center;
     cursor: pointer !important;
     font-size: 3.5rem;
