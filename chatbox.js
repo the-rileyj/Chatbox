@@ -1,31 +1,13 @@
 $(document).ready(function () {
+    //Helper function to return the time right now in a string format
     function now() {
         var t = new Date();
         return t.getMonth() + "/" + t.getDate() + "-" + t.getHours() + ":" + t.getMinutes() + ":" + t.getSeconds();
     }
 
+    //Helper function for formating a message with the current time
     function makeMessage(str){
         return "<" + now() + ">" + str + "\n";
-    }
-
-    function sendMessage() {
-        if (text.val().localeCompare("")) {
-            if (user.val().localeCompare("")) {
-                if (user.val().length < 15) {
-                    var obj = JSON.stringify({
-                        "msg": "<" + id + "><" + user.val() + ">: " + text.val(),
-                        "chan": channel.val(),
-                        "name": user.val()
-                    });
-                    ws.send(obj);
-                    text.val("");
-                } else {
-                    chat.innerText = makeMessage("<ERROR>: Username is too long!") + chat.innerText;;
-                }
-            } else {
-                chat.innerText = makeMessage("<ERROR>: Need a username to send a message!") + chat.innerText;
-            }
-        }
     }
 
     //Helper function for adding cookies
@@ -66,10 +48,11 @@ $(document).ready(function () {
 
     //Will play notification sound if it's enabled
     function playSound() {
-        if(sound)
+        if (sound)
             sound.play();
     }
 
+    //Adds preliminary text to the inner html of the 'pre'
     chat.innerText += "\n\nThis is the following structure of messages:\n\"<TIME><CHANNEL><ID><USERNAME> MESSAGE\"\n" +
         "TIME - Time the message was sent\n" +
         "CHANNEL - Displays if not empty, channel the message was recieved from\n" +
@@ -78,29 +61,40 @@ $(document).ready(function () {
         "MESSAGE - Message of the user\n" +
         "Alternatively, for error's:\n\"<TIME><ERROR> MESSAGE\"\n" +
         "Where MESSAGE display's the error message";
+
+    //Makes ID and sets the id cookie to that value if one doesn't already exist,
+    //otherwise the cookie is derived from the already existing id cookie
     if (!getCookie("id").localeCompare("")) {
         var id = String(Math.floor(Math.random() * 10)) + String(Math.floor(Math.random() * 10)) + String(Math.floor(Math.random() * 10)) + String(Math.floor(Math.random() * 10)) + String(Math.floor(Math.random() * 10)) + String(Math.floor(Math.random() * 10)) + String(Math.floor(Math.random() * 10));
         setCookie("id", id, 7);
     } else {
         id = getCookie("id");
     }
+
+    //Websocket creation function
     function getWS() {
+        //Creates websocket connection on ws://{CURRENT URL}/wschat
         var socket = new WebSocket("ws://" + window.location.host + "/wschat");
         socket.onmessage = function (msg) {
+            //Parses recieved message into JSON object,
+            //JSON is in format {"msg":"MESSAGE TEXT", "chan":"CHANNEL NAME", "name":"USERNAME"}
             obj = JSON.parse(msg.data);
             if (!channel.val().localeCompare(obj.chan)){
                 chat.innerText = makeMessage((obj.chan.localeCompare("") ? ("<" + obj.chan + ">") : "") + obj.msg) + chat.innerText;
                 if (user.val().localeCompare(obj.name)) {
                     playSound();
                 }
-                if(parseInt(chatter.css("padding-top")) > 15)
+                if (parseInt(chatter.css("padding-top")) > 15)
                     chatter.css("padding-top", (parseInt(chatter.css("padding-top")) - 15) + "px");
             }
         };
         return socket;
     }
+
+
     if (getCookie("username").localeCompare(""))
         user.val(getCookie("username"));
+
     var ws = getWS();
     text.keydown(function (e) {
         if (e.keyCode === 13){
@@ -128,4 +122,26 @@ $(document).ready(function () {
     user.keyup(function (e) {
         setCookie("username", user.val(), 7)
     });
+    
+    //Function for sending a message
+    function sendMessage() {
+        if (text.val().localeCompare("")) {
+            if (user.val().localeCompare("")) {
+                if (user.val().length < 15) {
+                    var obj = JSON.stringify({
+                        "msg": "<" + id + "><" + user.val() + ">: " + text.val(),
+                        "chan": channel.val(),
+                        "name": user.val()
+                    });
+                    //Sends JSON in format {"msg":"MESSAGE TEXT", "chan":"CHANNEL NAME", "name":"USERNAME"}
+                    ws.send(obj);
+                    text.val("");
+                } else {
+                    chat.innerText = makeMessage("<ERROR>: Username is too long!") + chat.innerText;;
+                }
+            } else {
+                chat.innerText = makeMessage("<ERROR>: Need a username to send a message!") + chat.innerText;
+            }
+        }
+    }
 });
