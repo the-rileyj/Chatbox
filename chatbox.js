@@ -67,7 +67,7 @@ $(document).ready(function () {
     //Websocket creation function
     function getWS() {
         //Creates websocket connection on ws://{CURRENT URL}/wschat
-        var socket = new WebSocket("ws://" + window.location.host + "/wschat");
+        var socket = new WebSocket("ws://" + window.location.host + "/chatbox");
         socket.onmessage = function (msg) {
             //Parses recieved message into JSON object,
             //JSON is in format {"msg":"MESSAGE TEXT", "chan":"CHANNEL NAME", "name":"USERNAME"}
